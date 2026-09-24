@@ -24,14 +24,21 @@ public function getVisiteur($login,$mdp) {
 //==========================================================================================
 // Connexion à la BDD en utilisant les données féninies dans le fichier app/Config/Database.php
 //==========================================================================================
-	$db = db_connect();
-    $db->table('visiteurs');
+    $db = db_connect();
+    #$db->table(visiteur);
+    #$table = 'visiteur';
 
 //=============================
 // rédaction de la requete sql
 //=============================
-    $sql = 'SELECT id, nom, prenom FROM gsbV2.visiteur WHERE login = ? AND mdp = ?';
-	
+    $sql = 'SELECT id, nom, prenom FROM visiteur WHERE login = ? AND mdp = ?';
+	#$db->table('visiteur')
+     #   ->where ('login',$login)
+     #   ->where ('mdp',$mdp)
+      #  ->get()
+       # ->getResultArray();
+
+
 //=============================
 // execution de la requete sql
 //=============================	

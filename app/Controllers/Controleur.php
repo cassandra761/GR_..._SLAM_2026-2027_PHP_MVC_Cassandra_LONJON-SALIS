@@ -88,9 +88,7 @@ public function search() {
 }
 
 
-
-
-// Action 2 : Affiche les détails sur un billet
+// Action 8 : Accès à la page login et permet de renter les identifiant et mots de passe en vérifiant $login,$password
 public function connectionlogin($login,$password) {
 		//================
 		//acces au modele
@@ -100,30 +98,18 @@ public function connectionlogin($login,$password) {
 		//===============================
 		//Appel d'une fonction du Modele
 		//===============================	
-		$donnees = $Modele->getDetails($login,$password);
+		$donnees = $Modele->getVisiteur($login,$password);
 		if (isset($donnees[0]->id)){
 			session_start();
 			$_SESSION["user1"]=($donnees[0]->id);
 			$_SESSION["name"]=($donnees[0]->nom);
 			$_SESSION["surname"]=($donnees[0]->prenom);
-			echo view (vueExpence);
+			$data['activeTab']='my-expenses';
+			echo view('vueExpence',$data);
 		}
 		else{
-			echo view (vueConnection);
+			echo view('vueConnection');
 		}
-		//=================================================================================
-		//!!! Création d'un jeu de données $data sécurisé pouvant etre passé à la vue
-		//!!! on créé une variable qui récupère le résultat de la requete : $getBillets();
-		//=================================================================================
-		$data['resultat']=$donnees;
-  		
-		//==========================================
-		//on charge la vue correspondante
-		//et on envoie le jeu de données $data à la vue
-		//la vue aura acces a une variable $resultat
-		//==========================================
-  		echo view('vueBillet',$data);
-		print_r ($donnees);
   
 }
 
