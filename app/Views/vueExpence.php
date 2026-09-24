@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Note de Frais GSB</title>
     <link rel="stylesheet" href="<?php echo base_url('/public/css/expense.css'); ?>" />
+    <link rel="stylesheet" href="<?php echo base_url('/public/css/index.css'); ?>" />
     <link rel="icon" href="logo GSB.png">
 </head>
 
