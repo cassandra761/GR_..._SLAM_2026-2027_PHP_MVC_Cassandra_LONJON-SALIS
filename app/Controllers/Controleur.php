@@ -23,6 +23,21 @@ if (isset($_POST["username"])){
 elseif (isset($_GET["action"])&& $_GET["action"]=="connection" ){
 		$this->connection();
 		}
+elseif (isset($_GET["action"])&& $_GET["action"]=="apropos" ){
+		$this->apropos();
+		}
+elseif (isset($_GET["action"])&& $_GET["action"]=="contact" ){
+		$this->contact();
+		}
+elseif (isset($_GET["action"])&& $_GET["action"]=="historique" ){
+		$this->historique();
+		}
+elseif (isset($_GET["action"])&& $_GET["action"]=="legalnotice" ){
+		$this->legalnotice();
+		}
+elseif (isset($_GET["action"])&& $_GET["action"]=="search" ){
+		$this->search();
+		}
 		else{
 			$this->accueil();
 		}
