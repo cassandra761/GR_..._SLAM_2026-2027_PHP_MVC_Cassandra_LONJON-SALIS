@@ -16,7 +16,11 @@ class Controleur extends BaseController {
 //Fonction index correspondant au Controleur frontal (ou index.php) en MVC libre
 //=====================================================================
 public function index(){
-if (isset($_POST["username"])){
+if (isset($_POST["KM"])){
+	$this->majFraisForfait($_POST["ETP"],$_POST["KM"],$_POST["NUI"],$_POST["REP"]);
+}
+
+elseif (isset($_POST["username"])){
 	$this->connectionlogin($_POST["username"],$_POST["password"]);
 }
 
@@ -100,10 +104,23 @@ public function connectionlogin($login,$password) {
 		//===============================	
 		$donnees = $Modele->getVisiteur($login,$password);
 		if (isset($donnees[0]->id)){
-			session_start();
+			if (!session_id()){session_start();}
 			$_SESSION["user1"]=($donnees[0]->id);
 			$_SESSION["name"]=($donnees[0]->nom);
 			$_SESSION["surname"]=($donnees[0]->prenom);
+			//vérif fiche frais
+			$donnees2 = $Modele->getFrais($_SESSION["user1"],date('Ym'));
+			if (!isset($donnees2[0]->idVisiteur)){
+				$Modele->insertFicheFrai($_SESSION["user1"],date('Ym'),date('Y-m-d'));
+				$Modele->insertFraisForfait($_SESSION["user1"],date('Ym'),"ETP",0,0);
+				$Modele->insertFraisForfait($_SESSION["user1"],date('Ym'),"KM",0,0);
+				$Modele->insertFraisForfait($_SESSION["user1"],date('Ym'),"NUI",0,0);
+				$Modele->insertFraisForfait($_SESSION["user1"],date('Ym'),"REP",0,0);
+			}
+			$data['ETP'] = $Modele->getFraisForfat($_SESSION["user1"],date('Ym'),"ETP");
+			$data['KM'] = $Modele->getFraisForfat($_SESSION["user1"],date('Ym'),"KM");
+			$data['NUI'] = $Modele->getFraisForfat($_SESSION["user1"],date('Ym'),"NUI");
+			$data['REP'] = $Modele->getFraisForfat($_SESSION["user1"],date('Ym'),"REP");
 			$data['activeTab']='my-expenses';
 			echo view('vueExpence',$data);
 		}
@@ -111,6 +128,26 @@ public function connectionlogin($login,$password) {
 			echo view('vueConnection');
 		}
   
+}
+
+public function majFraisForfait($ETP,$KM,$NUI,$REP){
+
+	$Modele = new \App\Models\Modele();
+	if (!session_id()){session_start();}
+
+	$Modele->insertFraisForfait($_SESSION["user1"],date('Ym'),"ETP",$ETP,$ETP);
+	$Modele->insertFraisForfait($_SESSION["user1"],date('Ym'),"KM",$KM,$KM);
+	$Modele->insertFraisForfait($_SESSION["user1"],date('Ym'),"NUI",$NUI,$NUI);
+	$Modele->insertFraisForfait($_SESSION["user1"],date('Ym'),"REP",$REP,$REP);
+
+	$data['ETP'] = $Modele->getFraisForfat($_SESSION["user1"],date('Ym'),"ETP");
+	$data['KM'] = $Modele->getFraisForfat($_SESSION["user1"],date('Ym'),"KM");
+	$data['NUI'] = $Modele->getFraisForfat($_SESSION["user1"],date('Ym'),"NUI");
+	$data['REP'] = $Modele->getFraisForfat($_SESSION["user1"],date('Ym'),"REP");
+
+	$data['activeTab']='my-expenses';
+	echo view('vueExpence',$data);
+
 }
 
 // Affiche une erreur

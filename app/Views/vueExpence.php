@@ -3,10 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Note de Frais GSB</title>
-    <link rel="stylesheet" href="<?php echo base_url('/public/css/expense.css'); ?>" />
-    <link rel="stylesheet" href="<?php echo base_url('/public/css/index.css'); ?>" />
+    <link rel="stylesheet" href="<?php echo base_url('/public/css/style.css'); ?>" />
     <link rel="icon" href="logo GSB.png">
 </head>
 
@@ -19,8 +17,8 @@
             <div class="profile-badge">
                 <div class="profile-icon">👤</div>
                 <div class="profile-text">
-                    <h3 id="userFullName"><?php echo htmlspecialchars($_SESSION['user']['prenom'] ?? 'Utilisateur') . ' ' . htmlspecialchars($_SESSION['user']['nom'] ?? ''); ?></h3>
-                    <p id="userProfile"><?php echo htmlspecialchars($_SESSION['user']['role'] ?? 'non défini'); ?></p>
+                    <h3 id="userFullName"><?php echo htmlspecialchars($_SESSION['user1']['prenom'] ?? 'Utilisateur') . ' ' . htmlspecialchars($_SESSION['user1']['nom'] ?? ''); ?></h3>
+                    <p id="userProfile"><?php echo htmlspecialchars($_SESSION['user1']['role'] ?? 'non défini'); ?></p>
                 </div>
             </div>
             <a href="logout.php" class="logout-btn">Se déconnecter</a>
@@ -61,24 +59,27 @@
 
             <section style="margin-bottom:20px;">
                 <h3 style="margin:0 0 10px 0; color:#7b90a6;">Éléments forfaitisés</h3>
+                <form action="postdata" method="POST">
                 <div class="expense-form">
                     <div class="form-group">
                         <label for="forfait_etape">Forfait Étape (quantité)</label>
-                        <input type="number" id="forfait_etape" min="0" value="0">
+                        <input name='ETP' type="number" id="forfait_etape" min="0" value=<?php echo $ETP[0]->quantite ?> required>
                     </div>
                     <div class="form-group">
                         <label for="forfait_km">Frais kilométriques (km)</label>
-                        <input type="number" id="forfait_km" min="0" value="0">
+                        <input name='KM' type="number" id="forfait_km" min="0" value=<?php echo $KM[0]->quantite ?> required>
                     </div>
                     <div class="form-group">
                         <label for="forfait_nuitees">Nuitées hôtel (nb)</label>
-                        <input type="number" id="forfait_nuitees" min="0" value="0">
+                        <input name='NUI' type="number" id="forfait_nuitees" min="0" value=<?php echo $NUI[0]->quantite ?> required>
                     </div>
                     <div class="form-group">
                         <label for="forfait_repas">Repas restaurant (nb)</label>
-                        <input type="number" id="forfait_repas" min="0" value="0">
+                        <input name='REP' type="number" id="forfait_repas" min="0" value=<?php echo $REP[0]->quantite ?> required>
                     </div>
+                    <input class="submit-btn" type="submit" value="Enregistrer forfaits">
                 </div>
+                </form>
                 <div style="margin-top:12px;">
                     <button class="submit-btn" onclick="saveForfaits()">Enregistrer forfaits</button>
                 </div>
@@ -189,7 +190,7 @@
 
 
     </div>
-    <script src="expense_report.js"></script>
+    <script type="text/javascript" src="<?php echo base_url('/public/Js/expence.js'); ?>"> </script>
 </body>
 
 </html>

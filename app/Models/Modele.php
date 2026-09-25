@@ -181,11 +181,6 @@ public function insertFicheFrai($idVisiteur,$mois,$dateModif) {
 // execution de la requete sql en passant un parametre id
 //=====================================================	
     $resultat = $db->query($sql, [$idVisiteur,$mois,$dateModif]);
-	
-//=============================
-// récupération des données de la requete sql
-//=============================
-	$resultat = $resultat->getResult();
 
 //=============================
 // renvoi du résultat au Controleur
@@ -235,7 +230,7 @@ public function getHorsFrais($idVisiteur) {
 // Fonction 6 
 // récupère les données BDD dans une fonction insertFraisForfait
 //=========================================================================
-public function insertFraisForfait($idVisiteur,$mois,$dateModif,$quantite,$quantites) {
+public function insertFraisForfait($idVisiteur,$mois,$idFraisForfait,$quantite,$quantites) {
 	
 //==========================================================================================
 // Connexion à la BDD en utilisant les données féninies dans le fichier app/Config/Database.php
@@ -250,12 +245,7 @@ public function insertFraisForfait($idVisiteur,$mois,$dateModif,$quantite,$quant
 //=====================================================
 // execution de la requete sql en passant un parametre id
 //=====================================================	
-    $resultat = $db->query($sql, [$idVisiteur,$mois,$dateModif,$quantite,$quantites]);
-	
-//=============================
-// récupération des données de la requete sql
-//=============================
-	$resultat = $resultat->getResult();
+    $resultat = $db->query($sql, [$idVisiteur,$mois,$idFraisForfait,$quantite,$quantites]);
 
 //=============================
 // renvoi du résultat au Controleur
@@ -284,11 +274,6 @@ public function updateFicheFrais($dateModif,$idVisiteur,$mois) {
 // execution de la requete sql en passant un parametre id
 //=====================================================	
     $resultat = $db->query($sql, [$dateModif,$idVisiteur,$mois]);
-	
-//=============================
-// récupération des données de la requete sql
-//=============================
-	$resultat = $resultat->getResult();
 
 //=============================
 // renvoi du résultat au Controleur
@@ -420,6 +405,36 @@ public function updateMontantValide($montant,$idVisiteur,$mois) {
 // execution de la requete sql en passant un parametre id
 //=====================================================	
     $resultat = $db->query($sql, [$montant,$idVisiteur,$mois]);
+	
+//=============================
+// récupération des données de la requete sql
+//=============================
+	$resultat = $resultat->getResult();
+
+//=============================
+// renvoi du résultat au Controleur
+//=============================		
+    return $resultat;
+  
+}
+
+//=========================================================================
+public function getFraisForfat($idVisiteur,$mois,$idFraisForfait) {
+	
+//==========================================================================================
+// Connexion à la BDD en utilisant les données féninies dans le fichier app/Config/Database.php
+//==========================================================================================
+    $db = db_connect();	
+	
+//=====================================
+// rédaction de la requete sql préparée
+//=====================================
+	$sql = 'SELECT quantite FROM LigneFraisForfait WHERE idVisiteur = ? AND mois = ? AND idFraisForfait = ?';
+	
+//=====================================================
+// execution de la requete sql en passant un parametre id
+//=====================================================	
+    $resultat = $db->query($sql, [$idVisiteur,$mois,$idFraisForfait]);
 	
 //=============================
 // récupération des données de la requete sql
