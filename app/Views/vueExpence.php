@@ -21,7 +21,8 @@
                     <p id="userProfile"><?php echo htmlspecialchars($_SESSION['user1']['role'] ?? 'non défini'); ?></p>
                 </div>
             </div>
-            <a href="logout.php" class="logout-btn">Se déconnecter</a>
+            <a href="<?= base_url('Controleur?action=logout') ?>" class="logout-btn">Se déconnecter</a>
+
         </div>
     </div>
 
@@ -59,6 +60,7 @@
 
             <section style="margin-bottom:20px;">
                 <h3 style="margin:0 0 10px 0; color:#7b90a6;">Éléments forfaitisés</h3>
+
                 <form action="postdata" method="POST">
                 <div class="expense-form">
                     <div class="form-group">
@@ -88,21 +90,23 @@
             <section>
                 <h3 style="margin:0 0 10px 0; color:#7b90a6;">Frais hors forfait</h3>
 
-                <form id="hfForm" method="POST" onsubmit="return addHorsForfait(event)">
+                <form action="postdata" method="POST">
+                <!-- <form id="hfForm" method="POST" onsubmit="return addHorsForfait(event)"> -->
                     <input type="hidden" name="action" value="add_hors_forfait">
                     <input type="hidden" name="mois" id="hfMois">
+
                     <div class="expense-form">
                         <div class="form-group">
                             <label for="hfDate">Date d'engagement</label>
-                            <input type="date" id="hfDate" name="hfDate" required>
+                            <input name='date' type="date" id="hfDate" name="hfDate" required>
                         </div>
                         <div class="form-group">
                             <label for="hfLabel">Libellé</label>
-                            <input type="text" id="hfLabel" name="hfLabel" required>
+                            <input name='libelle' type="text" id="hfLabel" name="hfLabel" required>
                         </div>
                         <div class="form-group">
                             <label for="hfAmount">Montant (€)</label>
-                            <input type="number" id="hfAmount" name="hfAmount" step="0.01" required>
+                            <input name='montant' type="number" id="hfAmount" name="hfAmount" step="0.01" required>
                         </div>
                         <input class="submit-btn" type="submit" value="Ajouter hors forfait">
                         <!-- <div class="form-group">

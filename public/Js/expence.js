@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Charger les données de la fiche du mois sélectionné
 function loadFiche(month) {
-
     renderHF([]);
 }
 

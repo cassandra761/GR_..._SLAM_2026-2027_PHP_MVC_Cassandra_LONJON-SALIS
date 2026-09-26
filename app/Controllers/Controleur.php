@@ -16,9 +16,26 @@ class Controleur extends BaseController {
 //Fonction index correspondant au Controleur frontal (ou index.php) en MVC libre
 //=====================================================================
 public function index(){
+if (isset($_POST["action"]) && $_POST["action"] === "add_hors_forfait") {
+    $this->majFraisHorsForfait(
+        $_POST["date"],
+        $_POST["libelle"],
+        $_POST["montant"]
+    );
+}
+
 if (isset($_POST["KM"])){
 	$this->majFraisForfait($_POST["ETP"],$_POST["KM"],$_POST["NUI"],$_POST["REP"]);
 }
+
+elseif (isset($_GET["action"]) && $_GET["action"] == "logout") {
+    $this->logout();
+	}
+
+elseif (isset($_GET["action"]) && $_GET["action"] == "expence") {
+    $this->expence();
+}
+
 
 elseif (isset($_POST["username"])){
 	$this->connectionlogin($_POST["username"],$_POST["password"]);
@@ -91,6 +108,10 @@ public function search() {
 		echo view('vueSearch');
 }
 
+public function expence() {
+		echo view('vueExpence');
+}
+
 
 // Action 8 : Accès à la page login et permet de renter les identifiant et mots de passe en vérifiant $login,$password
 public function connectionlogin($login,$password) {
@@ -149,6 +170,35 @@ public function majFraisForfait($ETP,$KM,$NUI,$REP){
 	echo view('vueExpence',$data);
 
 }
+
+public function logout()
+{
+    if (!session_id()) {
+        session_start();
+    }
+
+    // Détruire toutes les données de session
+    $_SESSION = [];
+
+    // Détruire la session
+    session_destroy();
+
+    // Afficher la page de connexion
+    echo view('vueConnection');
+}
+
+
+
+// public function majFraisHorsForfait($date, $libelle, $montant){
+
+// 	$Modele = new \App\Models\Modele();
+// 	if (!session_id()){session_start();}
+
+// 	$Modele->insertFraisHorsForfait($_SESSION["user1"],date('Ym'),$date, $libelle, $montant)
+
+// 	$data['activeTab']='new-expense';
+// 	echo view('vueExpence',$data);
+// }
 
 // Affiche une erreur
 public function erreur($msgErreur) {
