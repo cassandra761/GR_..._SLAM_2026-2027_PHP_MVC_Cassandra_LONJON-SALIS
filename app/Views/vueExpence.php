@@ -80,9 +80,9 @@
                     <input class="submit-btn" type="submit" value="Enregistrer forfaits">
                 </div>
                 </form>
-                <div style="margin-top:12px;">
+                <!-- <div style="margin-top:12px;">
                     <button class="submit-btn" onclick="saveForfaits()">Enregistrer forfaits</button>
-                </div>
+                </div> -->
             </section>
 
             <section>
@@ -104,10 +104,11 @@
                             <label for="hfAmount">Montant (€)</label>
                             <input type="number" id="hfAmount" name="hfAmount" step="0.01" required>
                         </div>
-                        <div class="form-group">
+                        <input class="submit-btn" type="submit" value="Ajouter hors forfait">
+                        <!-- <div class="form-group">
                             <label>&nbsp;</label>
                             <button type="submit" class="submit-btn">Ajouter hors forfait</button>
-                        </div>
+                        </div> -->
                     </div>
                 </form>
             </section>

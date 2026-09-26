@@ -121,7 +121,7 @@ public function connectionlogin($login,$password) {
 			$data['KM'] = $Modele->getFraisForfat($_SESSION["user1"],date('Ym'),"KM");
 			$data['NUI'] = $Modele->getFraisForfat($_SESSION["user1"],date('Ym'),"NUI");
 			$data['REP'] = $Modele->getFraisForfat($_SESSION["user1"],date('Ym'),"REP");
-			$data['activeTab']='my-expenses';
+			$data['activeTab']='new-expense';
 			echo view('vueExpence',$data);
 		}
 		else{
@@ -145,7 +145,7 @@ public function majFraisForfait($ETP,$KM,$NUI,$REP){
 	$data['NUI'] = $Modele->getFraisForfat($_SESSION["user1"],date('Ym'),"NUI");
 	$data['REP'] = $Modele->getFraisForfat($_SESSION["user1"],date('Ym'),"REP");
 
-	$data['activeTab']='my-expenses';
+	$data['activeTab']='new-expense';
 	echo view('vueExpence',$data);
 
 }
