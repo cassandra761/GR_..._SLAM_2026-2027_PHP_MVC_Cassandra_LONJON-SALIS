@@ -16,11 +16,11 @@ class Controleur extends BaseController {
 //Fonction index correspondant au Controleur frontal (ou index.php) en MVC libre
 //=====================================================================
 public function index(){
-if (isset($_POST["action"]) && $_POST["action"] === "add_hors_forfait") {
+if (isset($_POST["hfDate"])) {
     $this->majFraisHorsForfait(
-        $_POST["date"],
-        $_POST["libelle"],
-        $_POST["montant"]
+        $_POST["hfDate"],
+        $_POST["hfLabel"],
+        $_POST["hfAmount"]
     );
 }
 
@@ -173,32 +173,33 @@ public function majFraisForfait($ETP,$KM,$NUI,$REP){
 
 public function logout()
 {
-    if (!session_id()) {
-        session_start();
-    }
-
-    // Détruire toutes les données de session
-    $_SESSION = [];
+    if (!session_id()) {session_start();}
 
     // Détruire la session
     session_destroy();
 
     // Afficher la page de connexion
-    echo view('vueConnection');
+    // echo view('vueConnection');
+	$this->connection();
 }
 
 
 
-// public function majFraisHorsForfait($date, $libelle, $montant){
+public function majFraisHorsForfait($date, $libelle, $montant){
 
-// 	$Modele = new \App\Models\Modele();
-// 	if (!session_id()){session_start();}
+	$Modele = new \App\Models\Modele();
+	if (!session_id()){session_start();}
 
-// 	$Modele->insertFraisHorsForfait($_SESSION["user1"],date('Ym'),$date, $libelle, $montant)
+	$Modele->insertFicheHorsFrais($_SESSION["user1"],date('Ym'),$libelle,$date,$montant);
+	
+	$data['ETP'] = $Modele->getFraisForfat($_SESSION["user1"],date('Ym'),"ETP");
+	$data['KM'] = $Modele->getFraisForfat($_SESSION["user1"],date('Ym'),"KM");
+	$data['NUI'] = $Modele->getFraisForfat($_SESSION["user1"],date('Ym'),"NUI");
+	$data['REP'] = $Modele->getFraisForfat($_SESSION["user1"],date('Ym'),"REP");
 
-// 	$data['activeTab']='new-expense';
-// 	echo view('vueExpence',$data);
-// }
+	$data['activeTab']='new-expense';
+	echo view('vueExpence',$data);
+}
 
 // Affiche une erreur
 public function erreur($msgErreur) {

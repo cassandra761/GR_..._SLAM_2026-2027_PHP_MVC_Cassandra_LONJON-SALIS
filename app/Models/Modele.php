@@ -337,11 +337,6 @@ public function insertFicheHorsFrais($idVisiteur,$mois,$libelle,$date,$montant) 
 // execution de la requete sql en passant un parametre id
 //=====================================================	
     $resultat = $db->query($sql, [$idVisiteur,$mois,$libelle,$date,$montant]);
-	
-//=============================
-// récupération des données de la requete sql
-//=============================
-	$resultat = $resultat->getResult();
 
 //=============================
 // renvoi du résultat au Controleur
