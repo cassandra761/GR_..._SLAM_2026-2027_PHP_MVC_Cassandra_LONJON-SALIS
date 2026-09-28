@@ -193,37 +193,29 @@ public function insertFicheFrai($idVisiteur,$mois,$dateModif) {
 // Fonction 5 
 // récupère les données BDD dans une fonction getHorsFrais
 //=========================================================================
-public function getHorsFrais($idVisiteur) {
-	
-//==========================================================================================
-// Connexion à la BDD en utilisant les données féninies dans le fichier app/Config/Database.php
-//==========================================================================================
-    $db = db_connect();	
-	
-//=====================================
-// rédaction de la requete sql préparée
-//=====================================
-	$sql = 'SELECT * FROM FicheFrais WHERE idVisiteur = ? ORDER BY mois DESC
-                SELECT date, libelle, montant 
-                FROM LigneFraisHorsForfait 
-                WHERE idVisiteur = ?
-                ORDER BY date DESC';
-	
-//=====================================================
-// execution de la requete sql en passant un parametre id
-//=====================================================	
-    $resultat = $db->query($sql, [$idVisiteur]);
-	
-//=============================
-// récupération des données de la requete sql
-//=============================
-	$resultat = $resultat->getResult();
+public function getDetailsFrais($idVisiteur) {
+    $db = db_connect();
+    $sql = 'SELECT frais.mois, frais.categorie, frais.dateFrais, frais.libelle,
+                   frais.quantite, frais.montantUnitaire, frais.montantLigne
+            FROM (
+                SELECT lff.mois, "Forfait" AS categorie, NULL AS dateFrais,
+                       ff.libelle, lff.quantite, ff.montant AS montantUnitaire,
+                       lff.quantite * ff.montant AS montantLigne
+                FROM LigneFraisForfait lff
+                JOIN FraisForfait ff ON ff.id = lff.idFraisForfait
+                WHERE lff.idVisiteur = ?
 
-//=============================
-// renvoi du résultat au Controleur
-//=============================		
-    return $resultat;
-  
+                UNION ALL
+
+                SELECT lhf.mois, "Hors forfait" AS categorie, lhf.date AS dateFrais,
+                       lhf.libelle, 1 AS quantite, lhf.montant AS montantUnitaire,
+                       lhf.montant AS montantLigne
+                FROM LigneFraisHorsForfait lhf
+                WHERE lhf.idVisiteur = ?
+            ) AS frais
+            ORDER BY frais.mois DESC, frais.dateFrais DESC, frais.libelle ASC';
+
+    return $db->query($sql, [$idVisiteur, $idVisiteur])->getResultArray();
 }
 
 //=========================================================================

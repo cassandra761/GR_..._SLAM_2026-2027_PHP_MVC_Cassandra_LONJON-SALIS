@@ -35,8 +35,8 @@
         <?php endif; ?>
 
         <div class="tabs">
-            <button class="<?php echo $activeTab === 'new-expense' ? 'tab-button active' : 'tab-button'; ?>" onclick="switchTab('new-expense')">Nouvelle note</button>
-            <button class="<?php echo $activeTab === 'my-expenses' ? 'tab-button active' : 'tab-button'; ?>" onclick="switchTab('my-expenses')">Mes notes de frais</button>
+            <button class="<?php echo $activeTab === 'new-expense' ? 'tab-button active' : 'tab-button'; ?>" onclick="switchTab('new-expense', this)">Nouvelle note</button>
+            <button class="<?php echo $activeTab === 'my-expenses' ? 'tab-button active' : 'tab-button'; ?>" onclick="switchTab('my-expenses', this)">Mon historique</button>
         </div>
 
         <!-- TAB 1: Nouvelle note -->
@@ -65,19 +65,19 @@
                 <div class="expense-form">
                     <div class="form-group">
                         <label for="forfait_etape">Forfait Étape (quantité)</label>
-                        <input name='ETP' type="number" id="forfait_etape" min="0" value=<?php echo $ETP[0]->quantite ?> required>
+                        <input name='ETP' type="number" id="forfait_etape" min="0" value="<?php echo htmlspecialchars((string) ($ETP[0]->quantite ?? 0), ENT_QUOTES, 'UTF-8'); ?>" required>
                     </div>
                     <div class="form-group">
                         <label for="forfait_km">Frais kilométriques (km)</label>
-                        <input name='KM' type="number" id="forfait_km" min="0" value=<?php echo $KM[0]->quantite ?> required>
+                        <input name='KM' type="number" id="forfait_km" min="0" value="<?php echo htmlspecialchars((string) ($KM[0]->quantite ?? 0), ENT_QUOTES, 'UTF-8'); ?>" required>
                     </div>
                     <div class="form-group">
                         <label for="forfait_nuitees">Nuitées hôtel (nb)</label>
-                        <input name='NUI' type="number" id="forfait_nuitees" min="0" value=<?php echo $NUI[0]->quantite ?> required>
+                        <input name='NUI' type="number" id="forfait_nuitees" min="0" value="<?php echo htmlspecialchars((string) ($NUI[0]->quantite ?? 0), ENT_QUOTES, 'UTF-8'); ?>" required>
                     </div>
                     <div class="form-group">
                         <label for="forfait_repas">Repas restaurant (nb)</label>
-                        <input name='REP' type="number" id="forfait_repas" min="0" value=<?php echo $REP[0]->quantite ?> required>
+                        <input name='REP' type="number" id="forfait_repas" min="0" value="<?php echo htmlspecialchars((string) ($REP[0]->quantite ?? 0), ENT_QUOTES, 'UTF-8'); ?>" required>
                     </div>
                     <input class="submit-btn" type="submit" value="Enregistrer forfaits">
                 </div>
@@ -118,78 +118,38 @@
             </section>
         </div>
 
-        <!-- TAB 2: Mes notes de frais -->
+        <!-- TAB 2: Historique des dépenses -->
         <div id="my-expenses" class="tab-content <?php echo $activeTab === 'my-expenses' ? 'active' : ''; ?>">
-            <h2>Mes notes de frais</h2>
-            <?php if (!empty($mesFiches)): ?>
+            <h2>Historique de mes dépenses</h2>
+            <?php if (!empty($detailsFrais)): ?>
                 <table class="expenses-table">
                     <thead>
                         <tr>
                             <th>Mois</th>
-                            <th>Justificatifs</th>
-                            <th>Montant validé</th>
-                            <th>Date modif</th>
-                            <th>État</th>
+                            <th>Catégorie</th>
+                            <th>Date</th>
+                            <th>Libellé</th>
+                            <th>Quantité</th>
+                            <th>Prix unitaire</th>
+                            <th>Montant</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($mesFiches as $fiche): ?>
+                        <?php foreach ($detailsFrais as $frais): ?>
                             <tr>
-                                <td><?php echo htmlspecialchars($fiche['mois']); ?></td>
-                                <td><?php echo htmlspecialchars($fiche['nbJustificatif']); ?></td>
-                                <td><?php echo number_format($fiche['montantValide'], 2, ',', ' '); ?> €</td>
-                                <td><?php echo htmlspecialchars($fiche['dateModif']); ?></td>
-                                <td><?php
-                                    switch ($fiche['idEtat']) {
-                                        case 'CR': echo 'En attente'; break;
-                                        case 'VA': echo 'Validée'; break;
-                                        case 'RB': echo 'Refusée / Remboursée'; break;
-                                        case 'CL': echo 'Clôturée'; break;
-                                        default: echo htmlspecialchars($fiche['idEtat']);
-                                    }
-                                ?></td>
+                                <td><?php echo htmlspecialchars(substr($frais['mois'], 4, 2) . '/' . substr($frais['mois'], 0, 4), ENT_QUOTES, 'UTF-8'); ?></td>
+                                <td><?php echo htmlspecialchars($frais['categorie'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                <td><?php echo !empty($frais['dateFrais']) ? htmlspecialchars($frais['dateFrais'], ENT_QUOTES, 'UTF-8') : '—'; ?></td>
+                                <td><?php echo htmlspecialchars($frais['libelle'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                <td><?php echo htmlspecialchars((string) $frais['quantite'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                <td><?php echo number_format((float) $frais['montantUnitaire'], 2, ',', ' '); ?> €</td>
+                                <td><?php echo number_format((float) $frais['montantLigne'], 2, ',', ' '); ?> €</td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-                
-            <h2>Mes notes de hors frais</h2>
-                <table class="expenses-table">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Libellé</th>
-                            <th>Montant</th>
-                            <th>ActÉtation</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if (!empty($horsForfaits)): ?>
-                            <?php foreach ($horsForfaits as $hf): ?>
-                                <tr>
-                                    <td><?php echo htmlspecialchars($hf['date']); ?></td>
-                                    <td><?php echo htmlspecialchars($hf['libelle']); ?></td>
-                                    <td><?php echo number_format($hf['montant'], 2, ',', ' '); ?> €</td>
-                                    <td><?php
-                                    switch ($fiche['idEtat']) {
-                                        case 'CR': echo 'En attente'; break;
-                                        case 'VA': echo 'Validée'; break;
-                                        case 'RB': echo 'Refusée / Remboursée'; break;
-                                        case 'CL': echo 'Clôturée'; break;
-                                        default: echo htmlspecialchars($fiche['idEtat']);
-                                    }
-                                    ?></td>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <tr>
-                                <td colspan="4" style="text-align:center;">Aucun frais hors forfait</td>
-                            </tr>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
             <?php else: ?>
-                <p style="text-align:center; color:#666;">Aucune note de frais enregistrée pour le moment.</p>
+                <p style="text-align:center; color:#666;">Aucun frais enregistré pour le moment.</p>
             <?php endif; ?>
         </div>
 

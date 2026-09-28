@@ -109,7 +109,29 @@ public function search() {
 }
 
 public function expence() {
-		echo view('vueExpence');
+		$this->afficherEspaceFrais();
+}
+
+private function afficherEspaceFrais($activeTab = 'new-expense') {
+	if (!session_id()) { session_start(); }
+
+	if (empty($_SESSION['user1'])) {
+		$this->connection();
+		return;
+	}
+
+	$modele = new \App\Models\Modele();
+	$idVisiteur = $_SESSION['user1'];
+	$data = [
+		'ETP' => $modele->getFraisForfat($idVisiteur, date('Ym'), 'ETP'),
+		'KM' => $modele->getFraisForfat($idVisiteur, date('Ym'), 'KM'),
+		'NUI' => $modele->getFraisForfat($idVisiteur, date('Ym'), 'NUI'),
+		'REP' => $modele->getFraisForfat($idVisiteur, date('Ym'), 'REP'),
+		'detailsFrais' => $modele->getDetailsFrais($idVisiteur),
+		'activeTab' => $activeTab,
+	];
+
+	echo view('vueExpence', $data);
 }
 
 
@@ -138,12 +160,7 @@ public function connectionlogin($login,$password) {
 				$Modele->insertFraisForfait($_SESSION["user1"],date('Ym'),"NUI",0,0);
 				$Modele->insertFraisForfait($_SESSION["user1"],date('Ym'),"REP",0,0);
 			}
-			$data['ETP'] = $Modele->getFraisForfat($_SESSION["user1"],date('Ym'),"ETP");
-			$data['KM'] = $Modele->getFraisForfat($_SESSION["user1"],date('Ym'),"KM");
-			$data['NUI'] = $Modele->getFraisForfat($_SESSION["user1"],date('Ym'),"NUI");
-			$data['REP'] = $Modele->getFraisForfat($_SESSION["user1"],date('Ym'),"REP");
-			$data['activeTab']='new-expense';
-			echo view('vueExpence',$data);
+			$this->afficherEspaceFrais();
 		}
 		else{
 			echo view('vueConnection');
@@ -161,13 +178,7 @@ public function majFraisForfait($ETP,$KM,$NUI,$REP){
 	$Modele->insertFraisForfait($_SESSION["user1"],date('Ym'),"NUI",$NUI,$NUI);
 	$Modele->insertFraisForfait($_SESSION["user1"],date('Ym'),"REP",$REP,$REP);
 
-	$data['ETP'] = $Modele->getFraisForfat($_SESSION["user1"],date('Ym'),"ETP");
-	$data['KM'] = $Modele->getFraisForfat($_SESSION["user1"],date('Ym'),"KM");
-	$data['NUI'] = $Modele->getFraisForfat($_SESSION["user1"],date('Ym'),"NUI");
-	$data['REP'] = $Modele->getFraisForfat($_SESSION["user1"],date('Ym'),"REP");
-
-	$data['activeTab']='new-expense';
-	echo view('vueExpence',$data);
+	$this->afficherEspaceFrais();
 
 }
 
@@ -192,13 +203,7 @@ public function majFraisHorsForfait($date, $libelle, $montant){
 
 	$Modele->insertFicheHorsFrais($_SESSION["user1"],date('Ym'),$libelle,$date,$montant);
 	
-	$data['ETP'] = $Modele->getFraisForfat($_SESSION["user1"],date('Ym'),"ETP");
-	$data['KM'] = $Modele->getFraisForfat($_SESSION["user1"],date('Ym'),"KM");
-	$data['NUI'] = $Modele->getFraisForfat($_SESSION["user1"],date('Ym'),"NUI");
-	$data['REP'] = $Modele->getFraisForfat($_SESSION["user1"],date('Ym'),"REP");
-
-	$data['activeTab']='new-expense';
-	echo view('vueExpence',$data);
+	$this->afficherEspaceFrais();
 }
 
 // Affiche une erreur

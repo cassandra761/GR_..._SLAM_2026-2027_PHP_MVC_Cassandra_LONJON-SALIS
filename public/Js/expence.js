@@ -1,12 +1,15 @@
 let horsForfaitList = [];
 
 // Simple tab switcher
-function switchTab(tab) {
+function switchTab(tab, button) {
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
 
-    document.getElementById(tab).classList.add('active');
-    event.target.classList.add('active');
+    const selectedTab = document.getElementById(tab);
+    if (!selectedTab || !button) return;
+
+    selectedTab.classList.add('active');
+    button.classList.add('active');
 }
 
 // Initialiser la fiche du mois en cours et charger les données
