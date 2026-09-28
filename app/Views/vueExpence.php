@@ -17,8 +17,8 @@
             <div class="profile-badge">
                 <div class="profile-icon">👤</div>
                 <div class="profile-text">
-                    <h3 id="userFullName"><?php echo htmlspecialchars($_SESSION['user1']['prenom'] ?? 'Utilisateur') . ' ' . htmlspecialchars($_SESSION['user1']['nom'] ?? ''); ?></h3>
-                    <p id="userProfile"><?php echo htmlspecialchars($_SESSION['user1']['role'] ?? 'non défini'); ?></p>
+                    <h3 id="userFullName"><?php echo htmlspecialchars(($_SESSION['surname'] ?? 'Utilisateur') . ' ' . ($_SESSION['name'] ?? ''), ENT_QUOTES, 'UTF-8'); ?></h3>
+                    <p id="userProfile"><?php echo htmlspecialchars($_SESSION['role'] ?? 'Visiteur', ENT_QUOTES, 'UTF-8'); ?></p>
                 </div>
             </div>
             <a href="getdata?action=logout" class="logout-btn">Se déconnecter</a>

@@ -11,9 +11,9 @@ function switchTab(tab) {
 
 // Initialiser la fiche du mois en cours et charger les données
 document.addEventListener('DOMContentLoaded', () => {
-    const mois = new Date().toISOString().slice(5,7);
-    const année = new Date().toISOString().slice(0,4);
-    const month = année+mois;
+    const mois = new Date().toISOString().slice(5, 7);
+    const année = new Date().toISOString().slice(0, 4);
+    const month = année + mois;
     document.getElementById('ficheMonth').value = month;
     loadFiche(month);
 });
@@ -44,7 +44,7 @@ function saveForfaits() {
 
 // Fonctions pour gérer les frais hors forfait
 function renderHF(list) {
-    document.getElementById('hfBody').innerHTML = list.map((hf,i) => `
+    document.getElementById('hfBody').innerHTML = list.map((hf, i) => `
         <tr>
             <td>${hf.date}</td>
             <td>${hf.libelle}</td>
@@ -87,7 +87,7 @@ function delHF(i) {
     const month = document.getElementById('ficheMonth').value;
     const fiche = getFiche(month);
 
-    fiche.horsForfait.splice(i,1);
+    fiche.horsForfait.splice(i, 1);
     setFiche(month, fiche);
 
     renderHF(fiche.horsForfait);
