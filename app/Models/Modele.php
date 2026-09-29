@@ -20,6 +20,7 @@ class Modele extends Model {
 // récupère les données BDD dans une fonction getVisiteur
 //=========================================================================
 public function getVisiteur($login,$mdp) { 
+// Recherche un visiteur à partir de son identifiant et de son mot de passe.
 
 //==========================================================================================
 // Connexion à la BDD en utilisant les données féninies dans le fichier app/Config/Database.php
@@ -62,6 +63,7 @@ public function getVisiteur($login,$mdp) {
 // récupère les données BDD dans une fonction getFrais
 //=========================================================================
 public function getFrais($idVisiteur,$mois) {
+    // Vérifie si une fiche existe pour ce visiteur et ce mois.
 	
 //==========================================================================================
 // Connexion à la BDD en utilisant les données féninies dans le fichier app/Config/Database.php
@@ -95,6 +97,7 @@ public function getFrais($idVisiteur,$mois) {
 // récupère les données BDD dans une fonction getQuantites
 //=========================================================================
 public function getQuantites($idVisiteur,$mois) {
+    // Calcule le total des frais forfaitisés pour un visiteur et un mois.
 	
 //==========================================================================================
 // Connexion à la BDD en utilisant les données féninies dans le fichier app/Config/Database.php
@@ -131,6 +134,7 @@ public function getQuantites($idVisiteur,$mois) {
 // récupère les données BDD dans une fonction getMontant
 //=========================================================================
 public function getMontant($idVisiteur,$mois) {
+    // Calcule le total des dépenses hors forfait pour un visiteur et un mois.
 	
 //==========================================================================================
 // Connexion à la BDD en utilisant les données féninies dans le fichier app/Config/Database.php
@@ -166,6 +170,7 @@ public function getMontant($idVisiteur,$mois) {
 // récupère les données BDD dans une fonction insertFicheFrai
 //=========================================================================
 public function insertFicheFrai($idVisiteur,$mois,$dateModif) {
+    // Crée la fiche mensuelle de frais avec son état initial.
 	
 //==========================================================================================
 // Connexion à la BDD en utilisant les données féninies dans le fichier app/Config/Database.php
@@ -193,8 +198,10 @@ public function insertFicheFrai($idVisiteur,$mois,$dateModif) {
 // Fonction 5 
 // récupère les données BDD dans une fonction getHorsFrais
 //=========================================================================
+// Rassemble les frais forfaitisés et hors forfait pour afficher l'historique.
 public function getDetailsFrais($idVisiteur) {
     $db = db_connect();
+    // UNION ALL rassemble les deux catégories en conservant chaque ligne.
     $sql = 'SELECT frais.mois, frais.categorie, frais.dateFrais, frais.libelle,
                    frais.quantite, frais.montantUnitaire, frais.montantLigne
             FROM (
@@ -223,6 +230,7 @@ public function getDetailsFrais($idVisiteur) {
 // récupère les données BDD dans une fonction insertFraisForfait
 //=========================================================================
 public function insertFraisForfait($idVisiteur,$mois,$idFraisForfait,$quantite,$quantites) {
+    // Insère une quantité forfaitaire ou actualise la ligne si elle existe déjà.
 	
 //==========================================================================================
 // Connexion à la BDD en utilisant les données féninies dans le fichier app/Config/Database.php
@@ -251,6 +259,7 @@ public function insertFraisForfait($idVisiteur,$mois,$idFraisForfait,$quantite,$
 // récupère les données BDD dans une fonction updateFicheFrais
 //=========================================================================
 public function updateFicheFrais($dateModif,$idVisiteur,$mois) {
+    // Actualise la date de modification et incrémente le nombre de justificatifs.
 	
 //==========================================================================================
 // Connexion à la BDD en utilisant les données féninies dans le fichier app/Config/Database.php
@@ -279,6 +288,7 @@ public function updateFicheFrais($dateModif,$idVisiteur,$mois) {
 // récupère les données BDD dans une fonction updateMontant
 //=========================================================================
 public function updateMontant($montant,$idVisiteur,$mois) {
+    // Enregistre le montant validé de la fiche de frais mensuelle.
 	
 //==========================================================================================
 // Connexion à la BDD en utilisant les données féninies dans le fichier app/Config/Database.php
@@ -314,6 +324,7 @@ public function updateMontant($montant,$idVisiteur,$mois) {
 // récupère les données BDD dans une fonction insertFicheHorsFrais
 //=========================================================================
 public function insertFicheHorsFrais($idVisiteur,$mois,$libelle,$date,$montant) {
+    // Ajoute une dépense hors forfait avec sa date, son libellé et son montant.
 	
 //==========================================================================================
 // Connexion à la BDD en utilisant les données féninies dans le fichier app/Config/Database.php
@@ -342,6 +353,7 @@ public function insertFicheHorsFrais($idVisiteur,$mois,$libelle,$date,$montant) 
 // récupère les données BDD dans une fonction updateJustificatif
 //=========================================================================
 public function updateJustificatif($dateModif,$idVisiteur,$mois) {
+    // Actualise la date de modification et le nombre de justificatifs de la fiche.
 	
 //==========================================================================================
 // Connexion à la BDD en utilisant les données féninies dans le fichier app/Config/Database.php
@@ -375,6 +387,7 @@ public function updateJustificatif($dateModif,$idVisiteur,$mois) {
 // récupère les données BDD dans une fonction updateMontantValide
 //=========================================================================
 public function updateMontantValide($montant,$idVisiteur,$mois) {
+    // Modifie le montant validé enregistré pour la fiche mensuelle.
 	
 //==========================================================================================
 // Connexion à la BDD en utilisant les données féninies dans le fichier app/Config/Database.php
@@ -407,6 +420,7 @@ public function updateMontantValide($montant,$idVisiteur,$mois) {
 
 //=========================================================================
 public function getFraisForfat($idVisiteur,$mois,$idFraisForfait) {
+    // Récupère la quantité d'un type de forfait pour un visiteur et un mois.
 	
 //==========================================================================================
 // Connexion à la BDD en utilisant les données féninies dans le fichier app/Config/Database.php

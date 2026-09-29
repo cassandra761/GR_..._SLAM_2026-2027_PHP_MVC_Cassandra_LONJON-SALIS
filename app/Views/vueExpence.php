@@ -9,6 +9,7 @@
 </head>
 
 <body>
+    <!-- En-tête avec l'identité du visiteur et le lien de déconnexion. -->
     <div class="header-connected">
         <div style="text-align: center; flex: 1;">
             <img src="logo.png" alt="Logo GSB" style="height: 40px;">
@@ -35,12 +36,14 @@
         <?php endif; ?>
 
         <div class="tabs">
+            <!-- Les onglets basculent entre la saisie et l'historique des dépenses. -->
             <button class="<?php echo $activeTab === 'new-expense' ? 'tab-button active' : 'tab-button'; ?>" onclick="switchTab('new-expense', this)">Nouvelle note</button>
             <button class="<?php echo $activeTab === 'my-expenses' ? 'tab-button active' : 'tab-button'; ?>" onclick="switchTab('my-expenses', this)">Mon historique</button>
         </div>
 
         <!-- TAB 1: Nouvelle note -->
         <div id="new-expense" class="tab-content <?php echo $activeTab === 'new-expense' ? 'active' : ''; ?>">
+            <!-- Cette section contient les formulaires de saisie des frais. -->
             <h2>Renseigner fiche de frais</h2>
 
             <div style="margin-bottom:16px; display:flex; gap:12px; align-items:center;">
@@ -62,6 +65,7 @@
                 <h3 style="margin:0 0 10px 0; color:#7b90a6;">Éléments forfaitisés</h3>
 
                 <form action="postdata" method="POST">
+                    <!-- Les noms ETP, KM, NUI et REP sont traités par le contrôleur. -->
                 <div class="expense-form">
                     <div class="form-group">
                         <label for="forfait_etape">Forfait Étape (quantité)</label>
@@ -89,6 +93,7 @@
 
             <section>
                 <h3 style="margin:0 0 10px 0; color:#7b90a6;">Frais hors forfait</h3>
+                <!-- Le formulaire transmet les informations d'une dépense hors forfait. -->
 
                 <form action="postdata" method="POST">
                 <!-- <form id="hfForm" method="POST" onsubmit="return addHorsForfait(event)"> -->
@@ -120,6 +125,7 @@
 
         <!-- TAB 2: Historique des dépenses -->
         <div id="my-expenses" class="tab-content <?php echo $activeTab === 'my-expenses' ? 'active' : ''; ?>">
+            <!-- Liste les dépenses déjà enregistrées pour ce visiteur. -->
             <h2>Historique de mes dépenses</h2>
             <?php if (!empty($detailsFrais)): ?>
                 <table class="expenses-table">

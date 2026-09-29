@@ -16,6 +16,7 @@ class Controleur extends BaseController {
 //Fonction index correspondant au Controleur frontal (ou index.php) en MVC libre
 //=====================================================================
 public function index(){
+// Oriente la requête selon les champs POST ou le paramètre GET « action ».
 if (isset($_POST["hfDate"])) {
     $this->majFraisHorsForfait(
         $_POST["hfDate"],
@@ -113,8 +114,10 @@ public function expence() {
 }
 
 private function afficherEspaceFrais($activeTab = 'new-expense') {
+	// Charge les données du mois courant et l'historique du visiteur connecté.
 	if (!session_id()) { session_start(); }
 
+	// Un visiteur non connecté est renvoyé vers le formulaire de connexion.
 	if (empty($_SESSION['user1'])) {
 		$this->connection();
 		return;
@@ -145,13 +148,15 @@ public function connectionlogin($login,$password) {
 		//===============================
 		//Appel d'une fonction du Modele
 		//===============================	
+		// Vérifie les identifiants auprès du modèle.
 		$donnees = $Modele->getVisiteur($login,$password);
 		if (isset($donnees[0]->id)){
+			// Conserve l'identité du visiteur pendant sa session.
 			if (!session_id()){session_start();}
 			$_SESSION["user1"]=($donnees[0]->id);
 			$_SESSION["name"]=($donnees[0]->nom);
 			$_SESSION["surname"]=($donnees[0]->prenom);
-			//vérif fiche frais
+			// Crée la fiche du mois et ses lignes forfait si elles n'existent pas.
 			$donnees2 = $Modele->getFrais($_SESSION["user1"],date('Ym'));
 			if (!isset($donnees2[0]->idVisiteur)){
 				$Modele->insertFicheFrai($_SESSION["user1"],date('Ym'),date('Y-m-d'));
@@ -173,6 +178,7 @@ public function majFraisForfait($ETP,$KM,$NUI,$REP){
 	$Modele = new \App\Models\Modele();
 	if (!session_id()){session_start();}
 
+	// Enregistre ou remplace les quantités forfaitaires du mois courant.
 	$Modele->insertFraisForfait($_SESSION["user1"],date('Ym'),"ETP",$ETP,$ETP);
 	$Modele->insertFraisForfait($_SESSION["user1"],date('Ym'),"KM",$KM,$KM);
 	$Modele->insertFraisForfait($_SESSION["user1"],date('Ym'),"NUI",$NUI,$NUI);
@@ -186,11 +192,9 @@ public function logout()
 {
     if (!session_id()) {session_start();}
 
-    // Détruire la session
+	// Ferme la session du visiteur avant d'afficher la page de connexion.
     session_destroy();
 
-    // Afficher la page de connexion
-    // echo view('vueConnection');
 	$this->connection();
 }
 
@@ -201,6 +205,7 @@ public function majFraisHorsForfait($date, $libelle, $montant){
 	$Modele = new \App\Models\Modele();
 	if (!session_id()){session_start();}
 
+	// Ajoute la dépense à la fiche du mois courant.
 	$Modele->insertFicheHorsFrais($_SESSION["user1"],date('Ym'),$libelle,$date,$montant);
 	
 	$this->afficherEspaceFrais();
@@ -208,6 +213,7 @@ public function majFraisHorsForfait($date, $libelle, $montant){
 
 // Affiche une erreur
 public function erreur($msgErreur) {
+	// Affiche la vue dédiée aux erreurs.
   echo view('vueErreur.php', $data);
 }
 
