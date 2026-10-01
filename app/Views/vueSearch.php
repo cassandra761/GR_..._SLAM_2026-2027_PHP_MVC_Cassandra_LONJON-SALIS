@@ -33,7 +33,7 @@
         </header>
         <main class="main">
             <div class="logo">
-                <img src="logo.png" alt="Logo GSB" width="400px">
+                <img src="<?php echo base_url('/public/images/Logo final.png'); ?>" alt="Logo GSB" width="400px">
             </div>
             <h1>Nos traveaux de recherches</h1>
             <p>

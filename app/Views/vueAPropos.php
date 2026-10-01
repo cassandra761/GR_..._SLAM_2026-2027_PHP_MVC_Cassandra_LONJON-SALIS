@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>À propos GSB</title>
     <link rel="stylesheet" href="<?php echo base_url('/public/css/style.css'); ?>" /> 
+    <link rel="stylesheet" href="<?php echo base_url('/public/image/logo final.png'); ?>" />
 </head>
 
 <body>
@@ -16,7 +17,7 @@
                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                         x="0px" y="0px" width="34px" height="27px" viewBox="0 0 34 27" enable-background="new 0 0 34 27"
                         xml:space="preserve">
-                        <rect fill="#FFFFFF" width="34" height="4" />
+                        <rect fill="#FFFFFF" width="34" height="4" />hat
                         <rect y="11" fill="#FFFFFF" width="34" height="4" />
                         <rect y="23" fill="#FFFFFF" width="34" height="4" />
                     </svg>
@@ -33,7 +34,7 @@
         </header>
         <main class="main">
             <div class="logo">
-                <img src="logo.png" alt="Logo GSB" width="400px">
+                <img src="<?php echo base_url('/public/images/Logo final.png'); ?>" alt="Logo GSB" width="400px">
             </div>
             <h1>À propos de GSB</h1>
             <p>

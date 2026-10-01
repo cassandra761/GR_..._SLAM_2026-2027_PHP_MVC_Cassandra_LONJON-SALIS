@@ -12,7 +12,7 @@
     <!-- En-tête avec l'identité du visiteur et le lien de déconnexion. -->
     <div class="header-connected">
         <div style="text-align: center; flex: 1;">
-            <img src="logo.png" alt="Logo GSB" style="height: 40px;">
+            <img src="<?php echo base_url('/public/images/Logo final.png'); ?>" alt="Logo GSB" style="height: 40px;">
         </div>
         <div class="user-info">
             <div class="profile-badge">
