@@ -1,5 +1,3 @@
 <?php
-//redirection 301 basique permanante
-header("Location: http://gestionfrais2.gsb/public/". true. 301);
+header('Location: public/', true, 302);
 exit;
-?>

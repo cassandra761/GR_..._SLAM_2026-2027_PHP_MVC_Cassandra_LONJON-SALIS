@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Note de Frais GSB</title>
-    <link rel="stylesheet" href="<?php echo base_url('/public/css/style.css'); ?>" />
+    <link rel="stylesheet" href="css/style.css" />
     <link rel="icon" href="logo GSB.png">
 </head>
 
