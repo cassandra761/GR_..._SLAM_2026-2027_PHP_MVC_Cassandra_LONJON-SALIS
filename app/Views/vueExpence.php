@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <title>Note de Frais GSB</title>
     <link rel="stylesheet" href="css/style.css" />
-    <link rel="icon" href="logo GSB.png">
+    <link rel="stylesheet" href="css/expence.css" />
+    <link rel="stylesheet" href="<?php echo base_url('/public/image/logo final.png'); ?>" />
 </head>
 
 <body>
@@ -161,7 +162,7 @@
 
 
     </div>
-    <script type="text/javascript" src="<?php echo base_url('/public/Js/expence.js'); ?>"> </script>
+    <script type="text/javascript" src="Js/expence.js"></script>
 </body>
 
 </html>

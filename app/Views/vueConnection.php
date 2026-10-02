@@ -7,7 +7,7 @@
     <title>Connexion GSB</title>
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/login.css" />
-    <link rel="icon" href="logo GSB.png">
+    <link rel="stylesheet" href="<?php echo base_url('/public/image/logo final.png'); ?>" />
 </head>
 
 <body>
