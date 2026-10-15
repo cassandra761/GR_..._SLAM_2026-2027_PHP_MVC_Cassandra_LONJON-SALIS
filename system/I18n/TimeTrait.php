@@ -255,13 +255,19 @@ trait TimeTrait
      *
      * @throws Exception
      */
-    public static function createFromTimestamp(int $timestamp, $timezone = null, ?string $locale = null)
-    {
-        $time = new self(gmdate('Y-m-d H:i:s', $timestamp), 'UTC', $locale);
-        $timezone ??= 'UTC';
-
-        return $time->setTimezone($timezone);
+public static function createFromTimestamp(int|float $timestamp, $timezone = null, ?string $locale = null)
+{
+    // If a timezone is not passed, use the default timezone
+    if ($timezone === null) {
+        $timezone = new \DateTimeZone(date_default_timezone_get());
     }
+
+    // Create a DateTimeImmutable object from the timestamp
+    $dateTime = new \DateTimeImmutable('@' . $timestamp, $timezone);
+
+    // Return a new instance of your class, assuming it's using TimeTrait
+
+}
 
     /**
      * Takes an instance of DateTimeInterface and returns an instance of Time with it's same values.
